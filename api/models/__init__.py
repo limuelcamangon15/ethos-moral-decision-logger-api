@@ -1,2 +1,2 @@
-from .analysis import Analysis
 from .decision import Decision
+from .analysis import Analysis

@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    'api.apps.ApiConfig',
+    'ethos'
 ]
 
 MIDDLEWARE = [
@@ -86,7 +89,7 @@ DATABASES = {
         'USER': tmpPostgres.username,
         'PASSWORD': tmpPostgres.password,
         'HOST': tmpPostgres.hostname,
-        'PORT': 8000,
+        'PORT': 5432,
         'OPTIONS': dict(parse_qsl(tmpPostgres.query)),
     }
 }
