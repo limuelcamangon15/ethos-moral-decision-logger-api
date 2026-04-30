@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import health, test_ai, register, create_decision, list_decisions, user_insights
+from .views import health, test_ai, register, create_decision, list_decisions, user_insights, get_one_decision
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -16,5 +16,6 @@ urlpatterns = [
     
     path('decision/', create_decision),
     path('decisions/list/', list_decisions),
+    path("decision/<int:pk>/", get_one_decision),
     path('insights/', user_insights)
 ]

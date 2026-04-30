@@ -52,6 +52,21 @@ def map_score(value):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
+def get_one_decision(request, pk):
+    user = request.user
+
+    decision = Decision.objects.filter(id=pk, user=user).first()
+
+    if decision is None:
+        return Response({"message": "Decision not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = DecisionSerializer(decision)
+
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def list_decisions(request):
     decision = Decision.objects.filter(user=request.user).order_by('-created_at')
 
