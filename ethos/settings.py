@@ -41,6 +41,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://localhost:5174",
     "http://localhost:5175",
+    "https://ethos-moral-decision.vercel.app/"
 ]
 
 REST_FRAMEWORK = {
@@ -60,7 +61,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'api.apps.ApiConfig',
-    'rest_framework'
+    'rest_framework',
+    "corsheaders"
 ]
 
 MIDDLEWARE = [
@@ -72,7 +74,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
 ]
 
 ROOT_URLCONF = 'ethos.urls'
