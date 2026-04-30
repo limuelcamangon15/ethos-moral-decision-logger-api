@@ -35,7 +35,6 @@ def create_decision(request):
         
         return Response({
             "decision": serializer.data,
-            "analysis": parsed if parsed else "AI analysis failed"
         }, status=status.HTTP_200_OK)
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -48,3 +47,16 @@ def map_score(value):
         "high": 0.9
     }
     return mapping.get(str(value).lower(), 0.0)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def list_decisions(request):
+    decision = Decision.objects.filter(user=request.user).order_by('-created_at')
+
+    serializers = DecisionSerializer(decision, many=True)
+
+    return Response({
+        "count": len(serializers.data),
+        "results": serializers.data
+    }, status=status.HTTP_200_OK)

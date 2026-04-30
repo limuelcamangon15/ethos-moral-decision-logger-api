@@ -1,1 +1,2 @@
 from .decision_serializer import DecisionSerializer
+from .analysis_serializer import AnalysisSerializer
