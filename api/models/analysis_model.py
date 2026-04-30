@@ -3,6 +3,7 @@ from .decision_model import Decision
 
 class Analysis(models.Model):
     decision = models.OneToOneField(Decision, on_delete=models.CASCADE, related_name="analysis")
+    
     ethics = models.CharField(max_length=50)
     risk_level = models.CharField(max_length=50)
     time_scope = models.CharField(max_length=50)

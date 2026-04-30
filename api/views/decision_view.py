@@ -2,6 +2,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
+from django.db.models import Count
 
 from api.models import Analysis, Decision
 from api.serializers import DecisionSerializer
@@ -59,4 +60,33 @@ def list_decisions(request):
     return Response({
         "count": len(serializers.data),
         "results": serializers.data
+    }, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_insights(request):
+    user = request.user
+
+    decisions = Decision.objects.filter(user=user)
+
+    total = decisions.count()
+
+    ethics = (
+        Analysis.objects
+        .filter(decision__user=user)
+        .values("ethics")
+        .annotate(count=Count("ethics"))
+    )
+
+    risk = (
+        Analysis.objects
+        .filter(decision__user=user)
+        .values("risk_level")
+        .annotate(count=Count("risk_level"))
+    )
+
+    return Response({
+        "total_decisions": total,
+        "ethics_distribution": list(ethics),
+        "risk_distribution": list(risk),
     }, status=status.HTTP_200_OK)
