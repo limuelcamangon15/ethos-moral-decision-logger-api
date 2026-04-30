@@ -1,5 +1,5 @@
 from django.db import models
-from .decision import Decision
+from .decision_model import Decision
 
 class Analysis(models.Model):
     decision = models.OneToOneField(Decision, on_delete=models.CASCADE, related_name="analysis")

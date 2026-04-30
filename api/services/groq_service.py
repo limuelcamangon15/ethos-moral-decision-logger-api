@@ -1,5 +1,6 @@
 import requests
 import os
+import json
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
@@ -12,15 +13,18 @@ def analyze_decision(context, action, reasoning):
     }
 
     prompt = f"""
-    Analyze the decision and return ONLY JSON:
+        Analyze this decision and return ONLY valid JSON.
 
-    Context: {context}
-    Action: {action}
-    Reasoning: {reasoning}
+        DO NOT include any text outside JSON.
+        DO NOT wrap in backticks.
 
-    Return JSON with:
-    ethics, risk_level, time_scope, affected_party, justification_quality, confidence, explanation
-    """
+        Context: {context}
+        Action: {action}
+        Reasoning: {reasoning}
+
+        Return JSON with:
+        ethics, risk_level, time_scope, affected_party, justification_quality, confidence, explanation
+        """
 
     data = {
         "model": "llama-3.1-8b-instant",
@@ -37,3 +41,11 @@ def analyze_decision(context, action, reasoning):
         return output["choices"][0]["message"]["content"]
     except Exception:
         return {"error": "AI failed"}
+
+# parses ai response into JSON format   
+def parse_ai_response(content):
+    try:
+        cleaned = content.strip().replace("```json", "").replace("```", "")
+        return json.loads(cleaned)
+    except Exception:
+        return None

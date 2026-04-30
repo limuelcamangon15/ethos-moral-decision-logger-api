@@ -1,2 +1,3 @@
 from .test_ai import test_ai
-from .register import register
+from .register_view import register
+from .decision_view import create_decision
