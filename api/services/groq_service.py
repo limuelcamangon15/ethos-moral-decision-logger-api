@@ -18,6 +18,13 @@ def analyze_decision(context, action, reasoning):
         DO NOT include any text outside JSON.
         DO NOT wrap in backticks.
 
+        Use ONLY these values:
+    
+        ethics: low, neutral, high  
+        risk_level: low, medium, high  
+        time_scope: short-term, long-term  
+        affected_party: self, family, friends, peers, public
+
         Context: {context}
         Action: {action}
         Reasoning: {reasoning}
