@@ -33,7 +33,14 @@ DEBUG = False
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    ".onrender.com"
+    ".onrender.com",
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5172",
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "http://localhost:5175",
 ]
 
 REST_FRAMEWORK = {
