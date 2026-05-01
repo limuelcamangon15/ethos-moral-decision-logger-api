@@ -30,7 +30,7 @@ SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 # old secret key: 'django-insecure-*$dwna2b1^t)fq!u0o+=7(%yax1b$wnph$etjxlqz-wkv(u)p3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     "localhost",

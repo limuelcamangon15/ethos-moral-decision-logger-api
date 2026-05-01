@@ -28,65 +28,107 @@ def request_password_reset(request):
         from_email="Ethos <no-reply@ethosapp.com>",
         recipient_list=[email],
         html_message=f"""
-        <div style="margin:0;padding:0;background:#f4f6f8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
-
-            <div style="max-width:520px;margin:40px auto;background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,0.08);">
-
+        <div
+            style="
+                margin: 0;
+                padding: 0;
+                background: #f4f6f8;
+                border-radius: 12px;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+                Helvetica, Arial, sans-serif;
+            "
+            >
+            <div
+                style="
+                max-width: 520px;
+                margin: 40px auto;
+                background: #ffffff;
+                border-radius: 12px;
+                overflow: hidden;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+                "
+            >
                 <!-- Header -->
-                <div style="padding:24px 28px;border-bottom:1px solid #eee;">
-                    <h2 style="margin:0;font-size:18px;color:#111;font-weight:600;">
-                        Ethos
-                    </h2>
-                    <p style="margin:4px 0 0;font-size:13px;color:#666;">
-                        Moral Decision Logger
-                    </p>
+                <div style="padding: 24px 16px; background-color: #292424;">
+                    <table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px; margin:auto;">
+                        <tr>
+                        
+                        <!-- Logo -->
+                        <td align="left" style="padding: 10px 0;">
+                            <img
+                            src="https://res.cloudinary.com/du7dfx3qm/image/upload/v1777634646/logo-and-text_yeepoe.png"
+                            width="140"
+                            style="display:block; max-width:100%; height:auto;"
+                            />
+                        </td>
+
+                        <!-- Text -->
+                        <td align="right" style="padding: 10px 0;">
+                            <p style="margin:0; font-size:14px; color:#e7e7e7;">
+                            Moral Decision Logger
+                            </p>
+                        </td>
+
+                        </tr>
+                    </table>
                 </div>
 
                 <!-- Body -->
-                <div style="padding:28px;">
+                <div style="padding: 28px">
+                <p style="font-size: 14px; color: #333; margin: 0 0 14px">Hello,</p>
 
-                    <p style="font-size:14px;color:#333;margin:0 0 14px;">
-                        Hello,
-                    </p>
+                <p
+                    style="
+                    font-size: 14px;
+                    color: #333;
+                    line-height: 1.6;
+                    margin: 0 0 18px;
+                    "
+                >
+                    We received a request to reset your Ethos account password.
+                </p>
 
-                    <p style="font-size:14px;color:#333;line-height:1.6;margin:0 0 18px;">
-                        We received a request to reset your Ethos account password.
-                    </p>
+                <p style="font-size: 13px; color: #666; margin: 0 0 10px">
+                    Your verification code:
+                </p>
 
-                    <p style="font-size:13px;color:#666;margin:0 0 10px;">
-                        Your verification code:
-                    </p>
+                <!-- OTP Box -->
+                <div
+                    style="
+                    font-size: 28px;
+                    font-weight: 600;
+                    letter-spacing: 6px;
+                    text-align: center;
+                    padding: 14px 0;
+                    background: #f7f9fb;
+                    border: 1px solid #e6e8eb;
+                    border-radius: 10px;
+                    color: #111;
+                    "
+                >
+                    {code}
+                </div>
 
-                    <!-- OTP Box -->
-                    <div style="
-                        font-size:28px;
-                        font-weight:600;
-                        letter-spacing:6px;
-                        text-align:center;
-                        padding:14px 0;
-                        background:#f7f9fb;
-                        border:1px solid #e6e8eb;
-                        border-radius:10px;
-                        color:#111;
-                    ">
-                        {code}
-                    </div>
+                <p style="font-size: 12px; color: #888; margin: 16px 0 0">
+                    This code expires in <b>10 minutes</b>.
+                </p>
 
-                    <p style="font-size:12px;color:#888;margin:16px 0 0;">
-                        This code expires in <b>10 minutes</b>.
-                    </p>
-
-                    <p style="font-size:12px;color:#888;margin-top:8px;">
-                        If you did not request this, you can safely ignore this email.
-                    </p>
-
+                <p style="font-size: 12px; color: #888; margin-top: 8px">
+                    If you did not request this, you can safely ignore this email.
+                </p>
                 </div>
 
                 <!-- Footer -->
-                <div style="padding:18px 28px;border-top:1px solid #eee;font-size:11px;color:#999;">
-                    Ethos helps you reflect on moral decisions with clarity.
+                <div
+                style="
+                    padding: 18px 28px;
+                    border-top: 1px solid #eee;
+                    font-size: 11px;
+                    color: #999;
+                "
+                >
+                Ethos helps you reflect on moral decisions with clarity.
                 </div>
-
             </div>
         </div>
         """
