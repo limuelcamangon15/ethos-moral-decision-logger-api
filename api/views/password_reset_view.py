@@ -23,10 +23,19 @@ def request_password_reset(request):
     PasswordResetCode.objects.create(user=user, code=code)
 
     send_mail(
-        "Password Reset Code",
-        f"Your code is: {code}",
-        "no-reply@webapp.com",
-        [email],
+        subject="Your Ethos Password Reset Code",
+        message=(
+            f"Hello,\n\n"
+            f"We received a request to reset the password for your Ethos: Moral Decision Logger account.\n\n"
+            f"Use the code below to proceed:\n\n"
+            f"   {code}\n\n"
+            f"This code will expire in 10 minutes for security reasons.\n\n"
+            f"If you did not request this, you can ignore this email — no changes will be made.\n\n"
+            f"Stay reflective,\n"
+            f"The Ethos Team"
+        ),
+        from_email="Ethos <no-reply@ethosapp.com>",
+        recipient_list=[email],
     )
 
     return Response({"message": "Reset code sent"}, status=status.HTTP_201_CREATED)
