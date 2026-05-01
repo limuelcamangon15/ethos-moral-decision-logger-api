@@ -3,12 +3,12 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-@api_view(['GET'])
+@api_view(['POST'])
 def register(request):
     username = request.data.get("username")
     password = request.data.get("password")
 
-    if None in [username, password]:
+    if not all([username, password]):
         return Response({"message": "Error, username and password is empty"}, status=status.HTTP_400_BAD_REQUEST)
     
     if User.objects.filter(username=username).exists():
