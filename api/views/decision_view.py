@@ -140,10 +140,25 @@ def get_weekly_decisions_count(request):
         7: 'saturday',
     }
 
+    weekday_map_for_today = { 
+        1: 'monday',
+        2: 'tuesday',
+        3: 'wednesday',
+        4: 'thursday',
+        5: 'friday', 
+        6: 'saturday',
+        7: 'sunday' 
+    }
+
     result = {day: 0 for day in weekday_map.values()}
+
+    day_today = weekday_map_for_today[timezone.now().weekday()+1]
 
     for item in qs:
         day_name = weekday_map[item['weekday']]
         result[day_name] = item['count']
     
-    return Response(result, status=status.HTTP_200_OK)
+    return Response({
+        "today": day_today,
+        "weekly_decision_count": result,
+    }, status=status.HTTP_200_OK)

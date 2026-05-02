@@ -19,7 +19,7 @@ urlpatterns = [
     path('test-ai/', test_ai),
     path('health/', health),
 
-# reset password
+# reset password (via forgot)
     path('reset/request-code/', request_password_reset),
     path('reset/verify-code/', verify_reset_code),
     path('reset/password/', reset_password),
