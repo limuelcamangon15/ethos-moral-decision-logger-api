@@ -3,16 +3,20 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-from .views import reset_password, request_password_reset, verify_reset_code
+from .views import reset_password, request_password_reset, verify_reset_code, change_password_via_profile
 from .views import create_decision, list_decisions, get_one_decision, get_weekly_decisions_count, user_insights
 from .views import health, test_ai, register
 from .views import get_user_info
 
 
 urlpatterns = [
+# login and get token
     path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    
+# get refresh token
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 
+# create account
     path('register/', register),
 
 # test
@@ -31,6 +35,7 @@ urlpatterns = [
     path('decision/<int:pk>/', get_one_decision),
     path('insights/', user_insights),
 
-# user
-    path('user/me/', get_user_info)
+# user profile
+    path('user/me/', get_user_info),
+    path('user/change-password/', change_password_via_profile)
 ]

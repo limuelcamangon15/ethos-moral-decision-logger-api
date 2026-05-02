@@ -3,8 +3,9 @@ import random
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
 from api.models import PasswordResetCode
@@ -178,6 +179,30 @@ def reset_password(request):
 
     PasswordResetCode.objects.filter(user=user).delete()
 
-    return Response({"message": "Password updated successfully"}, status=status.HTTP_202_ACCEPTED)
+    return Response({"message": "Password updated successfully"}, status=status.HTTP_200_OK)
+
+
+# submit new password (not via forgot)
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def change_password_via_profile(request):
+    user = request.user
+    new_password = request.data.get("new_password")
+
+    if not new_password:
+        return Response({
+            "message": "New password cannot be empty."
+        }, status=status.HTTP_400_BAD_REQUEST)
+    
+    user.set_password(new_password)
+    user.save()
+
+    return Response({
+        "message": "Password changed successfully"
+    }, status=status.HTTP_200_OK)
+
+
+
+
 
 
