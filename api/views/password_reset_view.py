@@ -9,6 +9,7 @@ from rest_framework import status
 
 from api.models import PasswordResetCode
 
+# send a request for password reset code
 @api_view(['POST'])
 def request_password_reset(request):
     email = request.data.get("email")
@@ -136,6 +137,8 @@ def request_password_reset(request):
 
     return Response({"message": "Reset code sent"}, status=status.HTTP_201_CREATED)
 
+
+# verify the received code
 @api_view(['POST'])
 def verify_reset_code(request):
     email = request.data.get("email")
@@ -156,6 +159,8 @@ def verify_reset_code(request):
 
     return Response({"message": "Code valid", "verified": True}, status=status.HTTP_202_ACCEPTED)
 
+
+# submit the new password
 @api_view(['POST'])
 def reset_password(request):
     email = request.data.get("email")

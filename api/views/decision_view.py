@@ -2,12 +2,17 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
+
 from django.db.models import Count
+from django.db.models.functions import ExtractWeekDay
+from django.utils import timezone
+from datetime import timedelta
 
 from api.models import Analysis, Decision
 from api.serializers import DecisionSerializer
 from api.services.groq_service import analyze_decision, parse_ai_response
 
+# post a decision a logged-in user made
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_decision(request):
@@ -49,7 +54,7 @@ def map_score(value):
     }
     return mapping.get(str(value).lower(), 0.0)
 
-
+# get one decision of logged-in user
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_one_decision(request, pk):
@@ -65,6 +70,7 @@ def get_one_decision(request, pk):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+# get all decisions of logged-in user
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def list_decisions(request):
@@ -77,6 +83,10 @@ def list_decisions(request):
         "results": serializers.data
     }, status=status.HTTP_200_OK)
 
+
+# --------------------- Dashboard ------------------------
+
+# get user insights for dashboard
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def user_insights(request):
@@ -105,3 +115,35 @@ def user_insights(request):
         "ethics_distribution": list(ethics),
         "risk_distribution": list(risk),
     }, status=status.HTTP_200_OK)
+
+
+# get all decisions count everyweek
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_weekly_decisions_count(request):
+    today = timezone.now()
+    seven_days_ago = today - timedelta(days=7)
+
+    qs = Decision.objects.filter(created_at__gte=seven_days_ago)
+
+    qs = qs.annotate(
+            weekday=ExtractWeekDay('created_at')
+        ).values('weekday').annotate(count=Count('id'))
+
+    weekday_map = {
+        1: 'sunday',
+        2: 'monday',
+        3: 'tuesday',
+        4: 'wednesday',
+        5: 'thursday',
+        6: 'friday',
+        7: 'saturday',
+    }
+
+    result = {day: 0 for day in weekday_map.values()}
+
+    for item in qs:
+        day_name = weekday_map[item['weekday']]
+        result[day_name] = item['count']
+    
+    return Response(result, status=status.HTTP_200_OK)
