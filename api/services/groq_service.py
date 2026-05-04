@@ -13,14 +13,14 @@ def analyze_decision(context, action, reasoning):
     }
 
     prompt = f"""
-        Analyze this decision and return ONLY valid JSON.
+        Analyze this decision CREATE A CONCISE EXPLANATION of the scenario and return ONLY valid JSON.
 
         DO NOT include any text outside JSON.
         DO NOT wrap in backticks.
 
         Use ONLY these values:
     
-        ethics: low, neutral, high  
+        ethics: right, good, neutral, doubtful, wrong 
         risk_level: low, medium, high  
         time_scope: short-term, long-term  
         affected_party: self, family, friends, peers, public
